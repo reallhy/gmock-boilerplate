@@ -54,3 +54,7 @@ cd build
 make gmock-boilerplate_cobertura
 ```
 - add build/cobertura.xml to Jenkins Job (should install Jenkins Cobertura Plugin)
+
+## License
+
+The code is available under the [MIT license](LICENSE.txt).
