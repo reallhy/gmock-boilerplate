@@ -1,0 +1,28 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.8)
+SET(PROJECT_NAME "gmock-boilerplate")
+PROJECT(${PROJECT_NAME} C CXX)
+
+ADD_DEFINITIONS(-std=c++11 -pthread -fPIC)
+
+SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -w")
+SET(CMAKE_CXX_FLAGS "-O0 -fprofile-arcs -ftest-coverage")
+    
+# Setup install paths
+INCLUDE_DIRECTORIES("include")
+INCLUDE_DIRECTORIES("src")
+INCLUDE_DIRECTORIES("test")
+INCLUDE_DIRECTORIES("test/include") 
+
+FILE(GLOB_RECURSE CPP_SRCS ${PROJECT_SOURCE_DIR}/src/*.cpp)
+SET(PROJECT_LIB ${PROJECT_NAME}_lib)
+FOREACH(cpp_src ${CPP_SRCS})
+    IF(${cpp_src} MATCHES "main.cpp" )
+        LIST(REMOVE_ITEM CPP_SRCS ${cpp_src})
+    endif()
+ENDFOREACH(cpp_src)
+
+ADD_LIBRARY(PROJECT_LIB ${CPP_SRCS})
+ADD_EXECUTABLE(${PROJECT_NAME} src/main.cpp)
+
+FIND_PACKAGE(Threads REQUIRED)
+ADD_SUBDIRECTORY(test)
